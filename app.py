@@ -11,7 +11,14 @@ DB_NAME = "bus_data.db"
 
 # Admin credentials
 ADMINS = {
-    "Abhishek": "Abhi123"
+    "Sravani": "Sravani12",
+    "BRK Singh": "Singh12",
+    "Abhishek": "abhi123"
+}
+
+# Principal credentials
+PRINCIPALS = {
+    "Vamseekiran": "Vamsee12"
 }
 
 
@@ -153,6 +160,13 @@ def login():
                 return redirect(url_for('driver_entry'))
             else:
                 return render_template("page2_login.html", error="Invalid admin credentials")
+        elif role == 'Principal':
+            if username in PRINCIPALS and PRINCIPALS[username] == password:
+                session['role'] = 'principal'
+                session['username'] = username
+                return redirect(url_for('driver_entry'))
+            else:
+                return render_template("page2_login.html", error="Invalid principal credentials")
         else:
             # Non-admin users can proceed
             session['role'] = 'user'
