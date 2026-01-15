@@ -1,10 +1,6 @@
-# Data files
-*.xlsx
-*.xls
-*.csv
-
-# Database
-*.db
+# Temporary Excel files only
+~$*.xlsx
+~$*.xls
 
 # Python
 __pycache__/
