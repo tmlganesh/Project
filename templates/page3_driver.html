@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="vh-100 py-5"
+     style="background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+     url('/static/images/bus_bg.jpg') center/cover;">
+
+    <div class="container d-flex justify-content-center">
+        <div class="bg-white p-4 rounded-3 shadow" style="max-width: 600px; width: 100%;">
+
+            <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-4">
+                <h3 class="fw-bold m-0">Bus Driver Details Entry</h3>
+
+                {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('master_details') }}"
+                   class="btn btn-sm btn-outline-primary">🛡️ Admin Dashboard</a>
+                {% endif %}
+            </div>
+
+            <form method="POST">
+
+                <div class="mb-3">
+                    <label class="fw-bold">Bus Rgd.No.</label>
+                    <input type="text"
+                           name="veh_no"
+                           id="veh_no"
+                           class="form-control bg-light"
+                           placeholder="Enter Bus Number (e.g. AP16TE 4070)"
+                           required autocomplete="off">
+                    <small class="text-muted">
+                        Details will auto-fill after you type the number and click away.
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold">Driver Name</label>
+                    <input type="text" id="disp_driver"
+                           class="form-control bg-light"
+                           readonly placeholder="Auto-filled">
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold">Contact No</label>
+                    <input type="text" id="disp_contact"
+                           class="form-control bg-light"
+                           readonly placeholder="Auto-filled">
+                </div>
+
+                <div class="mb-3">
+                    <label class="fw-bold">Route NO</label>
+                    <input type="text" id="disp_route"
+                           class="form-control bg-light"
+                           readonly placeholder="Auto-filled">
+                </div>
+
+                <div class="mb-4">
+                    <label class="fw-bold">Starting at</label>
+                    <input type="text" id="disp_start"
+                           class="form-control bg-light"
+                           readonly placeholder="Auto-filled">
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 fw-bold">
+                    Next: Enter Fuel Details →
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById("veh_no").addEventListener("blur", function () {
+
+    let busNo = this.value.trim();
+    if (busNo.length < 4) return;
+
+    fetch("/get_bus_details/" + encodeURIComponent(busNo))
+        .then(res => {
+            if (!res.ok) throw new Error("Not Found");
+            return res.json();
+        })
+        .then(data => {
+            document.getElementById("disp_driver").value = data.driver_name || "";
+            document.getElementById("disp_contact").value = data.contact_no || "";
+            document.getElementById("disp_route").value = data.route_no || "";
+            document.getElementById("disp_start").value = data.starting_at || "";
+
+            this.classList.add("is-valid");
+            this.classList.remove("is-invalid");
+        })
+        .catch(() => {
+            document.getElementById("disp_driver").value = "";
+            document.getElementById("disp_contact").value = "";
+            document.getElementById("disp_route").value = "";
+            document.getElementById("disp_start").value = "";
+
+            this.classList.add("is-invalid");
+            alert("❌ Bus Number not found in Master Records");
+        });
+});
+</script>
+
+{% endblock %}

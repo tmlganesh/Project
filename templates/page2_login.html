@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="vh-100 d-flex align-items-center justify-content-center" 
+     style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/static/images/background.jpg') center/cover;">
+    <div class="p-4 text-white shadow-lg" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; width: 400px; border: 1px solid rgba(255,255,255,0.2);">
+        <h2 class="text-center fw-bold text-danger"> MIC COLLEGE OF TECHNOLOGY</h2>
+        <p class="text-center text-info mb-4">Welcome to login portal</p>
+        <div class="bg-light p-4 rounded text-dark">
+            <h5 class="text-center mb-3">Member Login</h5>
+            {% if error %}
+            <div class="alert alert-danger py-2">{{ error }}</div>
+            {% endif %}
+            <form method="POST">
+                <label class="small">Select Role</label>
+                <select name="role" class="form-select mb-3" required>
+                    <option value="">-- Choose Member --</option>
+                    <option>Driver</option>
+                    <option>Admin</option>
+                    <option>Principal</option>
+                    <option>Bus Incharge</option>
+                </select>
+                <input type="text" name="user" class="form-control mb-3" placeholder="Username" required>
+                <input type="password" name="pwd" class="form-control mb-4" placeholder="Password" required>
+                <button class="btn btn-dark w-100">Login</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

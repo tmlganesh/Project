@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="vh-100 d-flex align-items-center justify-content-center" 
+     style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/static/images/background.jpg') center/cover;">
+    
+    <div class="p-5 text-center text-white" style="background: rgba(0,0,0,0.75); border-radius: 20px; width: 450px; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <h2 class="fw-bold mb-1">Route number Entry</h2>
+        <p class="mb-4 text-info">Select Route number to proceed:</p>
+        
+        <form action="{{ url_for('login') }}" method="get">
+            <select name="route" class="form-select form-select-lg mb-4 bg-dark text-white border-secondary shadow-sm" required>
+                <option value="" disabled selected>-- Choose Route No --</option>
+                
+                {# The 'routes' variable comes from the home() function in app.py #}
+                {% if routes %}
+                    {% for route in routes %}
+                        <option value="{{ route }}">{{ route }}</option>
+                    {% endfor %}
+                {% else %}
+                    <option disabled>No routes found in Database</option>
+                {% endif %}
+            </select>
+            
+            <button type="submit" class="btn btn-primary btn-lg w-100 shadow fw-bold">Submit</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
