@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .table-dark { background-color: #1a222b !important; }
+    .text-info-custom { color: #00d4ff !important; font-weight: bold; }
+    .btn-edit-outline { border: 1px solid #ffc107; color: #ffc107; background: transparent; padding: 2px 10px; border-radius: 4px; }
+    .btn-edit-outline:hover { background: #ffc107; color: #000; }
+    .modal-content-custom { background-color: #1a222b; border: 1.5px solid #ff9800; border-radius: 12px; }
+    .custom-input { background-color: #3b5066 !important; border: none !important; color: white !important; padding: 10px; }
+</style>
+
+<div class="container-fluid mt-4">
+    <div class="card bg-dark text-light shadow-lg p-3 border-0">
+        <h5 class="text-warning mb-3 fw-bold">📋 Bus Master Details & Compliance</h5>
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-hover align-middle text-center small">
+                <thead class="table-secondary text-dark">
+                    <tr>
+                        <th>Rgd.No</th><th>Route No</th><th>Starting At</th><th>Driver Name</th>
+                        <th>Contact No</th><th>Reg Year</th><th>Make/Model</th><th>Expiry</th>
+                        <th>Capacity</th><th>FC Upto</th><th>Insurance</th><th>Permit</th><th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bus in buses %}
+                    <tr>
+                        <td class="text-info-custom">{{ bus.bus_rgdno }}</td>
+                        <td>{{ bus.route_no }}</td><td>{{ bus.starting_at }}</td>
+                        <td>{{ bus.driver_name }}</td><td>{{ bus.contact_no }}</td>
+                        <td>{{ bus.year_reg }}</td><td>{{ bus.make_model }}</td>
+                        <td>{{ bus.year_expiry }}</td><td>{{ bus.capacity }}</td>
+                        <td>{{ bus.fc_date }}</td><td>{{ bus.insurance_date }}</td>
+                        <td>{{ bus.permit_expiry }}</td>
+                        <td><button class="btn btn-edit-outline" data-bs-toggle="modal" data-bs-target="#edit{{ bus.id }}">🖋 Edit</button></td>
+                    </tr>
+
+                    <div class="modal fade" id="edit{{ bus.id }}" tabindex="-1">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                            <div class="modal-content modal-content-custom">
+                                <div class="modal-header border-bottom-0">
+                                    <h5 class="text-warning">Edit {{ bus.bus_rgdno }}</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+                                <form method="POST" action="{{ url_for('master_details') }}">
+                                    <div class="modal-body p-4">
+                                        <input type="hidden" name="bus_id" value="{{ bus.id }}">
+                                        <div class="row g-3">
+                                            <div class="col-md-6"><label class="text-light small">Route No</label><input type="text" name="route_no" class="form-control custom-input" value="{{ bus.route_no }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Starting At</label><input type="text" name="starting_at" class="form-control custom-input" value="{{ bus.starting_at }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Driver Name</label><input type="text" name="driver_name" class="form-control custom-input" value="{{ bus.driver_name }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Contact No</label><input type="text" name="contact_no" class="form-control custom-input" value="{{ bus.contact_no }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Reg Year</label><input type="text" name="year_reg" class="form-control custom-input" value="{{ bus.year_reg }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Make / Model</label><input type="text" name="make_model" class="form-control custom-input" value="{{ bus.make_model }}"></div>
+                                            <div class="col-md-4"><label class="text-light small">Expiry Year</label><input type="text" name="year_expiry" class="form-control custom-input" value="{{ bus.year_expiry }}"></div>
+                                            <div class="col-md-4"><label class="text-light small">Capacity</label><input type="text" name="capacity" class="form-control custom-input" value="{{ bus.capacity }}"></div>
+                                            <div class="col-md-4"><label class="text-light small">FC Upto</label><input type="text" name="fc_date" class="form-control custom-input" value="{{ bus.fc_date }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Insurance</label><input type="text" name="insurance_date" class="form-control custom-input" value="{{ bus.insurance_date }}"></div>
+                                            <div class="col-md-6"><label class="text-light small">Permit</label><input type="text" name="permit_expiry" class="form-control custom-input" value="{{ bus.permit_expiry }}"></div>
+                                        </div>
+                                        <button type="submit" class="btn btn-warning w-100 mt-4 fw-bold shadow">Save Updated Details</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

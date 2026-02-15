@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="glass-card shadow-lg">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-white">MIC Fleet Status (2025-26)</h2>
+        <span class="badge bg-success">Active</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-hover table-dark">
+            <thead>
+                <tr>
+                    <th>Route No</th>
+                    <th>Bus Reg No</th>
+                    <th>Starting Point</th>
+                    <th>Driver Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bus in fleet %}
+                <tr>
+                    <td class="text-warning fw-bold">{{ bus['Route_No'] }}</td>
+                    <td class="text-info">{{ bus['Bus_RgdNo'] }}</td>
+                    <td>{{ bus['Starting_at'] }}</td>
+                    <td>{{ bus['Driver'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

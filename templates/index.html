@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-4 fw-bold">DVR & Dr. HS MIC College</h1>
+    <p class="lead">Transport Management System | 2025-26</p>
+    
+    <div class="row mt-5 justify-content-center">
+        <div class="col-md-4">
+            <div class="glass-card">
+                <h3>Total Buses</h3>
+                <p class="display-2">{{ count }}</p>
+                <a href="/fleet" class="btn btn-outline-light">View Fleet</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
